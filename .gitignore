@@ -27,6 +27,7 @@ bin/
 
 *.iml
 save.dump
+target/
 
 ### Mac OS ###
 .DS_Store
