@@ -26,6 +26,7 @@ bin/
 .vscode/
 
 *.iml
+save.dump
 
 ### Mac OS ###
 .DS_Store
