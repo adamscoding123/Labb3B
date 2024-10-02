@@ -8,7 +8,7 @@ import java.util.List;
 public class ProjectsManager {
 
     private int nextProjectId;
-    public List<Project> projects;
+    private List<Project> projects;
 
     public ProjectsManager() {
         this.projects = new ArrayList<>();
@@ -74,6 +74,10 @@ public class ProjectsManager {
             }
         }
         return highestId;
+    }
+
+    public List<Project> getProjects() {
+        return this.projects;
     }
 
     @Override

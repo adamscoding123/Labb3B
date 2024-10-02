@@ -13,7 +13,7 @@ public class Main {
 
         try {
             if (file.exists()) {
-                manager.projects = ProjectsFileIO.deSerializeFromFile(file);
+                manager.setProjects(ProjectsFileIO.deSerializeFromFile(file));
             }
         } catch (Exception exception) {
             System.out.println("Failed to load.");
@@ -25,7 +25,7 @@ public class Main {
 
         try {
 
-            ProjectsFileIO.serializeToFile(file, manager.projects);
+            ProjectsFileIO.serializeToFile(file, manager.getProjects());
         } catch (Exception exception) {
 
             System.out.println("Failed to save.");
