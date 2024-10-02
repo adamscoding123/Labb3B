@@ -40,6 +40,8 @@ public class MainUI {
         case 'M':
           manageProject();
           break;
+        case 'L':
+          listProjects();
         case 'X':
           break;
         default:
@@ -48,6 +50,11 @@ public class MainUI {
 
     } while (choice != 'X');
     System.out.println("Bye bye! This was an ugly ui - I hope I'll learn about JavaFX and gui:s");
+  }
+  private void listProjects() {
+    for(Project project : manager.projects) {
+      System.out.println(project.toString());
+    }
   }
 
   private void findProjects() {
@@ -94,6 +101,7 @@ public class MainUI {
     System.out.println("F - find project");
     System.out.println("A - add project");
     System.out.println("M - manage project");
+    System.out.println("L - list projects");
     System.out.println("X - exit");
     System.out.println("----------");
   }

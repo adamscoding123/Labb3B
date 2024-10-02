@@ -4,6 +4,7 @@ import model.matcher.ITaskMatcher;
 import model.matcher.NotDoneMatcher;
 import model.matcher.PrioMatcher;
 import model.matcher.TakenByMatcher;
+import model.matcher.AllMatcher;
 import model.*;
 
 import java.util.List;
@@ -62,13 +63,20 @@ class CurrentProjectUI {
           break;
         case 'X':
           break;
+        case 'L':
+          listTasks();
+          break;
         default:
           System.out.println("Unknown command");
       }
 
     } while (choice != 'X');
   }
-
+  private void listTasks() {
+    for(Task task : currentProject.findTasks(new AllMatcher())) {
+      System.out.println(task.toString());
+    }
+  }
   private void giveTaskTo() {
     System.out.print("Task id? ");
     int id = scan.nextInt();
@@ -127,6 +135,7 @@ class CurrentProjectUI {
     System.out.println("H - list high priority tasks");
     System.out.println("A - add task");
     System.out.println("G - give task to");
+    System.out.println("L - list tasks");
     System.out.println("U - update task");
     System.out.println("X - exit project menu");
     System.out.println("----------");
