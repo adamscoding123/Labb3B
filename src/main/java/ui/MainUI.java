@@ -51,8 +51,9 @@ public class MainUI {
     } while (choice != 'X');
     System.out.println("Bye bye! This was an ugly ui - I hope I'll learn about JavaFX and gui:s");
   }
+
   private void listProjects() {
-    for(Project project : manager.projects) {
+    for (Project project : manager.getProjects()) {
       System.out.println(project.toString());
     }
   }
