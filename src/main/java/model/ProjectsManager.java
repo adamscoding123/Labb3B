@@ -1,4 +1,5 @@
 package model;
+
 import model.exceptionClasses.TitleNotUniqueException;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.List;
 public class ProjectsManager {
 
     private int nextProjectId;
-    private List<Project> projects;
+    public List<Project> projects;
 
     public ProjectsManager() {
         this.projects = new ArrayList<>();
@@ -22,7 +23,7 @@ public class ProjectsManager {
 
     public boolean isTitleUnique(String title) {
         for (Project project : projects) {
-            if (project.toString().contains("title='" + title + "'")) {
+            if (title.compareTo(project.getTitle()) == 0) {
                 return false;
             }
         }
@@ -46,7 +47,7 @@ public class ProjectsManager {
 
     public Project getProjectById(int id) {
         for (Project project : projects) {
-            if (project.toString().contains("id=" + id)) {
+            if (project.getID() == id) {
                 return project;
             }
         }
@@ -57,7 +58,8 @@ public class ProjectsManager {
         List<Project> matchedProjects = new ArrayList<>();
         for (Project project : projects) {
             if (project.toString().toLowerCase().contains(titleString.toLowerCase())) {
-                matchedProjects.add(project); //gör till lowercase, kolla om = en annan string med lowercase. if case, inkrementera matched
+                matchedProjects.add(project); // gör till lowercase, kolla om = en annan string med lowercase. if case,
+                                              // inkrementera matched
             }
         }
         return matchedProjects;
@@ -66,16 +68,14 @@ public class ProjectsManager {
     private int getHighestId() {
         int highestId = 0;
         for (Project project : projects) {
-            String projectString = project.toString();
-            int startInd = projectString.indexOf("id=") + "id=".length();
-            int endInd = projectString.indexOf(",", startInd);
-            int id = Integer.parseInt(projectString.substring(startInd, endInd).trim());
+            int id = project.getID();
             if (id > highestId) {
                 highestId = id;
             }
         }
         return highestId;
     }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("ProjectsManager{");

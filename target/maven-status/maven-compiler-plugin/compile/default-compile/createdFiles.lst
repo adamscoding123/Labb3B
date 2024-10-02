@@ -1,0 +1,8 @@
+model/ProjectState.class
+model/ProjectsManager.class
+model/TaskState.class
+Main.class
+model/exceptionClasses/TitleNotUniqueException.class
+model/Project.class
+model/TaskPrio.class
+model/Task.class

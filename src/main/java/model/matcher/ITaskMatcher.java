@@ -1,4 +1,4 @@
-package model.exceptionClasses;
+package model.matcher;
 
 import model.Task;
 

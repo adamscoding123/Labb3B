@@ -1,11 +1,13 @@
 package model;
-import model.exceptionClasses.ITaskMatcher;
+
+import model.matcher.ITaskMatcher;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-public class Project implements Comparable<Project>, Serializable{
+
+public class Project implements Comparable<Project>, Serializable {
     private String title;
     private int id;
     private String description;
@@ -13,7 +15,7 @@ public class Project implements Comparable<Project>, Serializable{
     private int nextTaskId;
     private List<Task> tasks;
 
-    Project(String title, String description, int id){
+    Project(String title, String description, int id) {
         this.title = title;
         this.description = description;
         this.id = id;
@@ -22,72 +24,73 @@ public class Project implements Comparable<Project>, Serializable{
         this.tasks = new ArrayList<>();
     }
 
-    public Task getTaskById(int id){
-        for(Task task: tasks){
-            if(task.toString().contains("id="+id)){
+    public Task getTaskById(int id) {
+        for (Task task : tasks) {
+            if (task.getID() == id) {
                 return task;
             }
         }
-        //implementera i/o find istället
+        // implementera i/o find istället
         return null;
     }
-    public List<Task> findTasks(ITaskMatcher match){
+
+    public List<Task> findTasks(ITaskMatcher match) {
         List<Task> matchedTasks = new ArrayList<>();
-        for(Task task : tasks) {
-            if(match.match(task))
+        for (Task task : tasks) {
+            if (match.match(task))
                 matchedTasks.add(task);
         }
         matchedTasks.sort(null);
         return matchedTasks;
     }
-    public Task addTask(String descr, TaskPrio prio){
+
+    public Task addTask(String descr, TaskPrio prio) {
         Task newTask = new Task(descr, nextTaskId++, prio);
         tasks.add(newTask);
         return newTask;
     }
-    public boolean removeTask(Task task){
+
+    public boolean removeTask(Task task) {
         return tasks.remove(task);
     }
-    public ProjectState getState(){
+
+    public ProjectState getState() {
         boolean allDone = true;
-        if(tasks.isEmpty())
+        if (tasks.isEmpty())
             return ProjectState.EMPTY;
-        for(Task task : tasks){
-            if(task.toString().contains("state=TO_DO")
-                || task.toString().contains("state=IN_PROGRESS")){
-                allDone=false;
+        for (Task task : tasks) {
+            TaskState state = task.getState();
+            if (state == TaskState.TO_DO || state == TaskState.IN_PROGRESS) {
+                allDone = false;
                 break;
             }
         }
-        if(allDone)
+        if (allDone)
             return ProjectState.COMPLETED;
         else
             return ProjectState.ONGOING;
     }
-    public LocalDate getLastUpdated() {
-        LocalDate lastUpdated = created;
-        if(tasks.isEmpty())
-            return created;
 
-        for(Task task : tasks) {
-            String taskString = task.toString();
-            int startInd = taskString.indexOf("lastUpdated=");
-            int endInd = taskString.indexOf(",", startInd);
-            if(startInd!= -1){
-                startInd+= "lastUpdated=".length();
-                if(endInd == -1)
-                    endInd = taskString.length();
-            }
-            String dateString = taskString.substring(startInd, endInd);
-            LocalDate taskLastUpdated = LocalDate.parse(dateString);
-            if(taskLastUpdated.isAfter(lastUpdated)){
-                lastUpdated=taskLastUpdated;
+    public LocalDate getLastUpdated() {
+        LocalDate lastUpdated = LocalDate.from(created);
+        if (tasks.isEmpty())
+            return created;
+        for (Task task : tasks) {
+            LocalDate time = task.getLastUpdated();
+            if (time.isAfter(lastUpdated)) {
+                lastUpdated = time;
             }
         }
         return lastUpdated;
     }
 
+    public String getTitle() {
+        return this.title;
+    }
 
+    public int getID() {
+        return this.id;
+    }
 
     @Override
     public int compareTo(Project o) {

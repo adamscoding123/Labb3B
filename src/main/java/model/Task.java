@@ -1,7 +1,7 @@
 package model;
+
 import java.io.Serializable;
 import java.time.LocalDate;
-
 
 public class Task implements Comparable<Task>, Serializable {
     private int id;
@@ -11,28 +11,52 @@ public class Task implements Comparable<Task>, Serializable {
     private TaskPrio prio;
     private String description;
 
-    Task(String description, int id, TaskPrio prio){
+    Task(String description, int id, TaskPrio prio) {
         this.description = description;
         this.id = id;
         this.prio = prio;
         this.state = TaskState.TO_DO;
         this.lastUpdated = LocalDate.now();
     }
-    public void setTakenBy(String takenBy) {
-        if(this.takenBy != null){
+
+    public void setTakenBy(String takenBy) throws IllegalStateException {
+        if (this.takenBy != null) {
             throw new IllegalStateException("Uppgiften upptagen");
         }
         this.takenBy = takenBy;
         this.lastUpdated = LocalDate.now();
     }
+
     public void setState(TaskState state) {
         this.state = state;
         this.lastUpdated = LocalDate.now();
     }
+
     public void setPrio(TaskPrio prio) {
         this.prio = prio;
         this.lastUpdated = LocalDate.now();
     }
+
+    public LocalDate getLastUpdated() {
+        return this.lastUpdated;
+    }
+
+    public TaskState getState() {
+        return this.state;
+    }
+
+    public int getID() {
+        return this.id;
+    }
+
+    public String getTakenBy() {
+        return this.takenBy;
+    }
+
+    public TaskPrio getPriority() {
+        return this.prio;
+    }
+
     @Override
     public int compareTo(Task o) {
         int prioCompare = this.prio.compareTo(o.prio);
@@ -53,4 +77,5 @@ public class Task implements Comparable<Task>, Serializable {
         sb.append('}');
         return sb.toString();
     }
+
 }

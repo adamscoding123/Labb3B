@@ -1,11 +1,11 @@
-package model.exceptionClasses;
+package model.matcher;
 
 import model.Task;
+import model.TaskState;
 
 public class NotDoneMatcher implements ITaskMatcher {
     @Override
     public boolean match(Task task) {
-        return !task.toString().contains("state=DONE");
+        return task.getState() != TaskState.DONE;
     }
 }
-gitgit
